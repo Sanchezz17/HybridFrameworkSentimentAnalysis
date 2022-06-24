@@ -21,7 +21,6 @@ print(train_dataset)
 
 # Предварительная обработка: токенизация, стемминг, разметка частей речи
 
-train_dataset.tokens = train_dataset.text.apply(text_preprocessing)
+train_dataset = train_dataset.assign(tokens=train_dataset.text.apply(text_preprocessing))
 
 print(train_dataset)
-
