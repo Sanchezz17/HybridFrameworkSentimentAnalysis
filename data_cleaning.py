@@ -3,12 +3,10 @@ import string
 from functools import partial
 
 import nltk
-from nltk import WordNetLemmatizer
 from nltk.corpus import stopwords
 
 nltk.download('stopwords')
 stop_words = stopwords.words("english")
-wordnet = WordNetLemmatizer()
 
 # Инициализация словаря сленга
 slang_map: dict[str] = {}
@@ -22,7 +20,7 @@ slang_regex = re.compile(r"\b({})\b".format("|".join(map(re.escape, slang_words)
 replace_slang = partial(slang_regex.sub, lambda m: slang_map[m.group(1)])
 
 
-def text_cleaning(text):
+def text_cleaning(text: str) -> str:
     # Приводим текст к нижнему регистру
     text = text.lower()
 
