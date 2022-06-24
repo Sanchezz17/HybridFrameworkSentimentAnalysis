@@ -16,10 +16,9 @@ def text_preprocessing(text: str) -> List[TextKeyword]:
     pos_tags = pos_tag(tokens)
 
     keywords = []
-    for index, token in enumerate(tokens):
+    for token, pos in pos_tags:
         # Стемминг - получаем базовую форму слова
         stem = stemmer.stem(token)
-        pos = pos_tags[index]
         keyword = TextKeyword(token=token, stem=stem, pos=pos)
         keywords.append(keyword)
 
