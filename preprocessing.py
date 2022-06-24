@@ -1,9 +1,9 @@
 from typing import List
 
-from text_keyword import TextKeyword
-
 from nltk import PorterStemmer, pos_tag
 from nltk.tokenize import word_tokenize
+
+from text_keyword import TextKeyword
 
 stemmer = PorterStemmer()
 
