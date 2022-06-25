@@ -10,7 +10,7 @@ from preprocessing import text_preprocessing
 train_dataset = pd.read_csv('IMDB dataset/Train.csv')
 
 # В разработке возьмем пока некую часть датасета, для быстрой проверки кода
-n = 2
+n = 5
 train_dataset = train_dataset.head(int(len(train_dataset) * (n / 100)))
 
 print(train_dataset)
@@ -31,5 +31,4 @@ print(y_pred_lexicon)
 y_real = train_dataset.label
 # Вычисляем accuracy - долю правильных ответов алгоритма
 lexicon_accuracy = accuracy_score(y_real, y_pred_lexicon)
-
 print(f"Lexicon-based accuracy: {lexicon_accuracy}")

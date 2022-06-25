@@ -12,7 +12,6 @@ nltk.download('wordnet')
 
 def polarity_scoring_swn(keywords: List[TextKeyword]) -> int:
     positive_score = 0
-    negative_score = 0
     for keyword in keywords:
         wordnet_tag = get_wordnet_tag(keyword.pos)
         if not wordnet_tag:
@@ -23,9 +22,8 @@ def polarity_scoring_swn(keywords: List[TextKeyword]) -> int:
         synset = swn_synsets[0]
         if not synset:
             continue
-        positive_score += synset.pos_score()
-        negative_score += synset.neg_score()
-    return 1 if positive_score > negative_score else 0
+        positive_score += synset.pos_score() - synset.neg_score()
+    return 1 if positive_score > 0 else 0
 
 
 def get_wordnet_tag(tag: str) -> str | None:
