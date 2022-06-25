@@ -1,7 +1,7 @@
 import pandas as pd
+from sklearn.metrics import accuracy_score
 
 from data_cleaning import text_cleaning
-
 # Датасет - обзоры фильмов на IMDB на английском языке
 # https://www.kaggle.com/datasets/columbine/imdb-dataset-sentiment-analysis-in-csv-format
 from lexicon_based_sentiment_analysis import polarity_scoring_swn
@@ -26,6 +26,10 @@ train_dataset = train_dataset.assign(tokens=train_dataset.text.apply(text_prepro
 print(train_dataset)
 
 # Lexicon-based sentiment analysis
-train_dataset = train_dataset.assign(swn_scores=train_dataset.tokens.apply(polarity_scoring_swn))
+y_pred_lexicon = train_dataset.tokens.apply(polarity_scoring_swn)
+print(y_pred_lexicon)
+y_real = train_dataset.label
+# Вычисляем accuracy - долю правильных ответов алгоритма
+lexicon_accuracy = accuracy_score(y_real, y_pred_lexicon)
 
-print(train_dataset)
+print(f"Lexicon-based accuracy: {lexicon_accuracy}")
