@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict
 
 import nltk
 from nltk.corpus import sentiwordnet as swn
@@ -10,9 +10,9 @@ nltk.download('sentiwordnet')
 nltk.download('wordnet')
 
 
-def polarity_scoring_swn(keywords: List[TextKeyword]) -> int:
+def polarity_scoring_swn(keywords: Dict[str, TextKeyword]) -> int:
     positive_score = 0
-    for keyword in keywords:
+    for keyword in keywords.values():
         wordnet_tag = get_wordnet_tag(keyword.pos)
         if not wordnet_tag:
             continue
@@ -22,7 +22,7 @@ def polarity_scoring_swn(keywords: List[TextKeyword]) -> int:
         synset = swn_synsets[0]
         if not synset:
             continue
-        positive_score += synset.pos_score() - synset.neg_score()
+        positive_score += (synset.pos_score() - synset.neg_score()) * keyword.count
     return 1 if positive_score > 0 else 0
 
 
