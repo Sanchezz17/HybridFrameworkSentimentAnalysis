@@ -1,21 +1,24 @@
+from typing import Dict
+
+import numpy as np
 import pandas as pd
 
-from text_cleaning import clean_text
+from text_keyword import TextKeyword
 from text_preprocessing import preprocess_text
 
 
-def prepare_data(dataset: pd.DataFrame) -> (pd.Series, pd.DataFrame, pd.Series):
-    # Чистим текст от мусора, исправляем сленг, удаляем стоп-слова
-    cleared_text = dataset.text.apply(clean_text)
-
+def prepare_data(dataset: pd.DataFrame) -> \
+        (Dict[str, TextKeyword], pd.DataFrame, np.ndarray, np.ndarray):
     # Предварительная обработка: токенизация, стемминг, разметка частей речи
     # Инициализация списка ключевых слов текста и их свойств
-    keywords = cleared_text.apply(preprocess_text)
+    keywords, keywords_counters = preprocess_text(dataset.text)
 
-    X = pd.DataFrame(keywords.to_list())
-    print(X)
+    # Набор ключевых слов как набор признаков
+    keywords_dataframe = pd.DataFrame(keywords_counters, dtype=pd.Int64Dtype())
+    keywords_dataframe.fillna(0, inplace=True)
 
-    y = dataset.label
-    print(y)
+    # Входные данные для классификации
+    X = keywords_dataframe.to_numpy()
+    y = dataset.label.to_numpy()
 
-    return keywords, X, y
+    return keywords, keywords_dataframe, X, y
