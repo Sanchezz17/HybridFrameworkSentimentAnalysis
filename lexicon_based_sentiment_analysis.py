@@ -1,4 +1,5 @@
-from typing import Dict
+from typing import Dict, List
+from functools import lru_cache
 
 import nltk
 from nltk.corpus import sentiwordnet as swn
@@ -10,16 +11,22 @@ nltk.download('sentiwordnet')
 nltk.download('wordnet')
 
 
-def calculate_polarity_score_swn(keywords: Dict[str, TextKeyword]) -> int:
-    polarity_score = 0
-    for keyword in keywords.values():
-        keyword_polarity_score = calculate_keyword_polarity_score(keyword)
-        if not keyword_polarity_score:
-            continue
-        polarity_score += keyword_polarity_score
-    return 1 if polarity_score > 0 else 0
+def calculate_polarity_score_swn(keywords: Dict[str, TextKeyword],
+                                 keywords_counters: List[Dict[str, int]]) -> List[int]:
+    polarity_scores = []
+    for keyword_counter in keywords_counters:
+        polarity_score = 0
+        for token, count in keyword_counter.items():
+            keyword = keywords[token]
+            keyword_polarity_score = calculate_keyword_polarity_score(keyword)
+            if not keyword_polarity_score:
+                continue
+            polarity_score += keyword_polarity_score
+        polarity_scores.append(1 if polarity_score > 0 else 0)
+    return polarity_scores
 
 
+@lru_cache(maxsize=None)
 def calculate_keyword_polarity_score(keyword: TextKeyword) -> float | None:
     wordnet_tag = get_wordnet_tag(keyword.pos)
     if not wordnet_tag:
@@ -30,9 +37,10 @@ def calculate_keyword_polarity_score(keyword: TextKeyword) -> float | None:
     synset = swn_synsets[0]
     if not synset:
         return None
-    return (synset.pos_score() - synset.neg_score()) * keyword.count
+    return synset.pos_score() - synset.neg_score()
 
 
+@lru_cache(maxsize=None)
 def get_wordnet_tag(tag: str) -> str | None:
     if tag.startswith('J'):
         return wn.ADJ
