@@ -49,7 +49,10 @@ selected_keywords = select_keywords_genetic_algorithm(keywords=keywords_train,
                                                       generations_count=100)
 
 # Оставим только отобранные ключевые слова (признаки)
-X_train = drop_columns_except(X_train, except_columns=selected_keywords)
-X_test = drop_columns_except(X_test, except_columns=selected_keywords)
+keywords_dataframe_train = drop_columns_except(keywords_dataframe_train, except_columns=selected_keywords)
+keywords_dataframe_test = drop_columns_except(keywords_dataframe_test, except_columns=selected_keywords)
+X_train, y_train = get_x_y(train_dataset, keywords_dataframe_train)
+X_test, y_test = get_x_y(test_dataset, keywords_dataframe_test)
+
 print("\nAfter feature reduction\n")
 classify_and_print_accuracy_all_methods(X_train, y_train, X_test, y_test)
