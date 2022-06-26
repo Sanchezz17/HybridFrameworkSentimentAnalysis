@@ -14,10 +14,12 @@ def calculate_fitness(keywords: Dict[str, TextKeyword],
         if not chromosome[index]:
             continue
         keyword = keywords[token]
+        # Оценка полярности слова в SentiWordNet
         score = calculate_keyword_polarity_score(keyword)
         if not score:
             continue
         sum += score * count
         scored_count += count
     sum /= scored_count
+    # Расстояние от реальной оценки текста, чем меньше - тем лучше
     return abs(sentence_label - sum)
