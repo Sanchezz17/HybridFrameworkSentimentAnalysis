@@ -20,4 +20,4 @@ def calculate_fitness(keywords: Dict[str, TextKeyword],
         sum += score * count
         scored_count += count
     sum /= scored_count
-    return sentence_label - sum
+    return abs(sentence_label - sum)
