@@ -44,13 +44,13 @@ def select_keywords_for_sentence(keywords: Dict[str, TextKeyword],
 
     # Выбираем лучшую хромосому в последнем поколении
     best_chromosome = population[0]
-    best_fitness = float("inf")
+    best_fitness = float("-inf")
     for chromosome in population:
         fitness = calculate_fitness(keywords,
                                     sentence_keywords_counter,
                                     chromosome,
                                     sentence_label)
-        if fitness < best_fitness:
+        if fitness > best_fitness:
             best_fitness = fitness
             best_chromosome = chromosome
 

@@ -13,7 +13,7 @@ train_dataset = pd.read_csv('IMDB dataset/Train.csv')
 test_dataset = pd.read_csv('IMDB dataset/Test.csv')
 
 # Для быстрой проверки кода при разработке возьмем долю датасета в n процентов
-n = 1
+n = 10
 train_dataset = train_dataset.head(int(len(train_dataset) * (n / 100)))
 test_dataset = test_dataset.head(int(len(test_dataset) * (n / 100)))
 
