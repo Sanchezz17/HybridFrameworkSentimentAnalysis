@@ -2,6 +2,7 @@ from typing import Dict, List, Set
 
 import numpy as np
 
+from genetic_algorithm.fitness_calculation import calculate_fitness
 from genetic_algorithm.generation_production import produce_next_generation
 from genetic_algorithm.population_initialization import initialize_population
 from text_keyword import TextKeyword
@@ -30,13 +31,20 @@ def select_keywords_for_sentence(keywords: Dict[str, TextKeyword],
                                  population_size: int,
                                  generations_count: int) -> Set[str]:
     chromosome_length = len(sentence_keywords_counter)
+    # Инициализируем начальную популяцию
     population = initialize_population(population_size, chromosome_length)
-    for i in range(generations_count):
+    # В цикле производим следующие поколения
+    for _ in range(generations_count):
         population = produce_next_generation(keywords,
                                              sentence_keywords_counter,
                                              sentence_label,
                                              population)
-    best_chromosome = population[0]
+    # Выбираем лучшую хромосому в последнем поколении
+    best_chromosome = min(population,
+                          key=lambda i: calculate_fitness(keywords,
+                                                          sentence_keywords_counter,
+                                                          population[i],
+                                                          sentence_label))
     selected_keywords = {key for index, key in enumerate(sentence_keywords_counter)
                          if best_chromosome[index]}
     return selected_keywords
