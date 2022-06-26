@@ -6,7 +6,6 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 
 def knn_classification(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray) -> np.ndarray:
@@ -44,11 +43,6 @@ def ada_boost_classification(X_train: np.ndarray, y_train: np.ndarray, X_test: n
     return classification(model, X_train, y_train, X_test)
 
 
-def quadratic_discriminant_classification(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray) -> np.ndarray:
-    model = QuadraticDiscriminantAnalysis()
-    return classification(model, X_train, y_train, X_test)
-
-
 def classification(model, X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray) -> np.ndarray:
     model.fit(X_train, y_train)
     return model.predict(X_test)
@@ -60,3 +54,20 @@ def classify_and_print_accuracy(method, method_name: str,
     y_pred = method(X_train, y_train, X_test)
     accuracy = accuracy_score(y_test, y_pred)
     print(f"{method_name} ML using bag of words as features accuracy: {accuracy}")
+
+
+def classify_and_print_accuracy_all_methods(X_train: np.ndarray, y_train: np.ndarray,
+                                            X_test: np.ndarray, y_test: np.ndarray):
+    classify_and_print_accuracy(knn_classification, "KNN", X_train, y_train, X_test, y_test)
+
+    classify_and_print_accuracy(svc_classification, "SVC", X_train, y_train, X_test, y_test)
+
+    classify_and_print_accuracy(svc_rbf_classification, "SVC RBF", X_train, y_train, X_test, y_test)
+
+    classify_and_print_accuracy(naive_bayes_classification, "Naive Bayes", X_train, y_train, X_test, y_test)
+
+    classify_and_print_accuracy(dt_classification, "DT", X_train, y_train, X_test, y_test)
+
+    classify_and_print_accuracy(random_forest_classification, "Random forest", X_train, y_train, X_test, y_test)
+
+    classify_and_print_accuracy(ada_boost_classification, "AdaBoost", X_train, y_train, X_test, y_test)

@@ -2,10 +2,10 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 
 from data_preparing import prepare_data, get_x_y
+from genetic_algorithm.features_selection import select_keywords_genetic_algorithm
+from helpers import drop_columns_except
 from lexicon_based_sentiment_analysis import calculate_polarity_score_swn
-from ml_using_bag_of_words_as_features import knn_classification, svc_classification, \
-    naive_bayes_classification, dt_classification, classify_and_print_accuracy, svc_rbf_classification, \
-    random_forest_classification, ada_boost_classification, quadratic_discriminant_classification
+from ml_using_bag_of_words_as_features import classify_and_print_accuracy_all_methods
 
 # Датасет - обзоры фильмов на IMDB на английском языке
 # https://www.kaggle.com/datasets/columbine/imdb-dataset-sentiment-analysis-in-csv-format
@@ -36,20 +36,20 @@ print(f"Lexicon-based accuracy: {lexicon_accuracy}")
 # Подход 2: Анализ настроений на основе классификации и использования набора уникальных слов как признаков
 # ML using bag of words as features
 # Проблема подхода: слишком много признаков, не масштабируем на большие наборы данных
-classify_and_print_accuracy(knn_classification, "KNN", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(svc_classification, "SVC", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(svc_rbf_classification, "SVC RBF", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(naive_bayes_classification, "Naive Bayes", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(dt_classification, "DT", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(random_forest_classification, "Random forest", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(ada_boost_classification, "AdaBoost", X_train, y_train, X_test, y_test)
-
-classify_and_print_accuracy(quadratic_discriminant_classification, "Quadratic discriminant", X_train, y_train, X_test, y_test)
+classify_and_print_accuracy_all_methods(X_train, y_train, X_test, y_test)
 
 # Подход 3: Гибридный метод с оптимальным выбором признаков
+# Оптимизируем список ключевых слов (которые явлются признаками),
+# уменьшив его размер при сохранении точности
+# c помощью генетического алгоритма
+selected_keywords = select_keywords_genetic_algorithm(keywords=keywords_train,
+                                                      keywords_counters=keywords_train_counters,
+                                                      sentence_labels=y_test,
+                                                      population_size=100,
+                                                      generations_count=500)
+
+# Оставим только отобранные ключевые слова (признаки)
+X_train = drop_columns_except(X_train, except_columns=selected_keywords)
+X_test = drop_columns_except(X_test, except_columns=selected_keywords)
+print("\nAfter feature reduction\n")
+classify_and_print_accuracy_all_methods(X_train, y_train, X_test, y_test)
