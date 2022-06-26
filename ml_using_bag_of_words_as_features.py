@@ -57,6 +57,6 @@ def classification(model, X_train: np.ndarray, y_train: np.ndarray, X_test: np.n
 def classify_and_print_accuracy(method, method_name: str,
                                 X_train: np.ndarray, y_train: np.ndarray,
                                 X_test: np.ndarray, y_test: np.ndarray):
-    y_pred = knn_classification(X_train, y_train, X_test)
+    y_pred = method(X_train, y_train, X_test)
     accuracy = accuracy_score(y_test, y_pred)
     print(f"{method_name} ML using bag of words as features accuracy: {accuracy}")
