@@ -50,14 +50,14 @@ def classification(model, X_train: np.ndarray, y_train: np.ndarray, X_test: np.n
 
 def classify_and_print_accuracy(method, method_name: str,
                                 X_train: np.ndarray, y_train: np.ndarray,
-                                X_test: np.ndarray, y_test: np.ndarray):
+                                X_test: np.ndarray, y_test: np.ndarray) -> None:
     y_pred = method(X_train, y_train, X_test)
     accuracy = accuracy_score(y_test, y_pred)
     print(f"{method_name} ML using bag of words as features accuracy: {accuracy}")
 
 
 def classify_and_print_accuracy_all_methods(X_train: np.ndarray, y_train: np.ndarray,
-                                            X_test: np.ndarray, y_test: np.ndarray):
+                                            X_test: np.ndarray, y_test: np.ndarray) -> None:
     classify_and_print_accuracy(knn_classification, "KNN", X_train, y_train, X_test, y_test)
 
     classify_and_print_accuracy(svc_classification, "SVC", X_train, y_train, X_test, y_test)
