@@ -8,8 +8,7 @@ def calculate_fitness(keywords: Dict[str, TextKeyword],
                       sentence_keywords_counter: Dict[str, int],
                       chromosome: List[bool],
                       sentence_label: int) -> float:
-    sum = 0
-    scored_count = 0
+    scores_sum = 0
     for index, (token, count) in enumerate(sentence_keywords_counter.items()):
         if not chromosome[index]:
             continue
@@ -18,8 +17,10 @@ def calculate_fitness(keywords: Dict[str, TextKeyword],
         score = calculate_keyword_polarity_score(keyword)
         if not score:
             continue
-        sum += score * count
-        scored_count += count
-    sum /= scored_count
-    # Расстояние от реальной оценки текста, чем меньше - тем лучше
-    return abs(sentence_label - sum)
+        scores_sum += score * count
+
+    # Если текст негативный, то чем меньше сумма тем лучше
+    if sentence_label == 0:
+        scores_sum = -scores_sum
+
+    return scores_sum

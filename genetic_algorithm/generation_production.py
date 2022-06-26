@@ -29,10 +29,10 @@ def produce_next_generation(keywords: Dict[str, TextKeyword],
         fitness4 = calculate_fitness(keywords, sentence_keywords_counter, ch4, sentence_label)
 
         # Выбираем лучшую хромосому среди первой и второй
-        w1 = ch1 if fitness1 <= fitness2 else ch2
+        w1 = ch1 if fitness1 >= fitness2 else ch2
 
         # Выбираем лучшую хромосому среди третьей и четвертой
-        w2 = ch3 if fitness3 <= fitness4 else ch4
+        w2 = ch3 if fitness3 >= fitness4 else ch4
 
         # Скрещиваем w1 и w2
         child1, child2 = uniform_crossover(w1, w2)
@@ -43,7 +43,7 @@ def produce_next_generation(keywords: Dict[str, TextKeyword],
         # Добавляем в следующее поколение лучшую хромосому среди child1 и w1
         child1_fitness = calculate_fitness(keywords, sentence_keywords_counter, child1, sentence_label)
         w1_fitness = calculate_fitness(keywords, sentence_keywords_counter, w1, sentence_label)
-        if child1_fitness <= w1_fitness:
+        if child1_fitness >= w1_fitness:
             next_generation.append(child1)
         else:
             next_generation.append(w1)
@@ -51,7 +51,7 @@ def produce_next_generation(keywords: Dict[str, TextKeyword],
         # Добавляем в следующее поколение лучшую хромосому среди child2 и w2
         child2_fitness = calculate_fitness(keywords, sentence_keywords_counter, child1, sentence_label)
         w2_fitness = calculate_fitness(keywords, sentence_keywords_counter, w2, sentence_label)
-        if child2_fitness <= w2_fitness:
+        if child2_fitness >= w2_fitness:
             next_generation.append(child2)
         else:
             next_generation.append(w2)

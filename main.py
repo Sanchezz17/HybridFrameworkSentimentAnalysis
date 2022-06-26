@@ -44,9 +44,9 @@ classify_and_print_accuracy_all_methods(X_train, y_train, X_test, y_test)
 # c помощью генетического алгоритма
 selected_keywords = select_keywords_genetic_algorithm(keywords=keywords_train,
                                                       keywords_counters=keywords_train_counters,
-                                                      sentence_labels=y_test,
-                                                      population_size=100,
-                                                      generations_count=500)
+                                                      sentence_labels=y_train,
+                                                      population_size=20,
+                                                      generations_count=100)
 
 # Оставим только отобранные ключевые слова (признаки)
 X_train = drop_columns_except(X_train, except_columns=selected_keywords)

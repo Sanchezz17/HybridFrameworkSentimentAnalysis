@@ -37,7 +37,10 @@ def calculate_keyword_polarity_score(keyword: TextKeyword) -> float | None:
     synset = swn_synsets[0]
     if not synset:
         return None
-    return synset.pos_score() - synset.neg_score()
+    pos_score = synset.pos_score()
+    neg_score = synset.neg_score()
+    score = pos_score - neg_score
+    return score
 
 
 @lru_cache(maxsize=None)
