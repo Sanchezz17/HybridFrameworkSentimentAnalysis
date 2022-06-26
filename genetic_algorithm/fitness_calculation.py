@@ -10,7 +10,7 @@ def calculate_fitness(keywords: Dict[str, TextKeyword],
                       sentence_label: int) -> float:
     sum = 0
     scored_count = 0
-    for index, (token, count) in enumerate(sentence_keywords_counter.values()):
+    for index, (token, count) in enumerate(sentence_keywords_counter.items()):
         if not chromosome[index]:
             continue
         keyword = keywords[token]

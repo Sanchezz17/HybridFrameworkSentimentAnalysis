@@ -31,7 +31,7 @@ X_test, y_test = get_x_y(test_dataset, keywords_dataframe_test)
 # Проблема подхода: ограничен списком помеченных в SentiWordNet слов
 y_pred_lexicon = calculate_polarity_score_swn(keywords_test, keywords_test_counters)
 lexicon_accuracy = accuracy_score(y_test, y_pred_lexicon)
-print(f"Lexicon-based accuracy: {lexicon_accuracy}")
+print(f"Lexicon-based accuracy: {lexicon_accuracy}\n")
 
 # Подход 2: Анализ настроений на основе классификации и использования набора уникальных слов как признаков
 # ML using bag of words as features
