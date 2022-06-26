@@ -31,20 +31,29 @@ def select_keywords_for_sentence(keywords: Dict[str, TextKeyword],
                                  population_size: int,
                                  generations_count: int) -> Set[str]:
     chromosome_length = len(sentence_keywords_counter)
+
     # Инициализируем начальную популяцию
     population = initialize_population(population_size, chromosome_length)
+
     # В цикле производим следующие поколения
     for _ in range(generations_count):
         population = produce_next_generation(keywords,
                                              sentence_keywords_counter,
                                              sentence_label,
                                              population)
+
     # Выбираем лучшую хромосому в последнем поколении
-    best_chromosome = min(population,
-                          key=lambda i: calculate_fitness(keywords,
-                                                          sentence_keywords_counter,
-                                                          population[i],
-                                                          sentence_label))
+    best_chromosome = population[0]
+    best_fitness = float("inf")
+    for chromosome in population:
+        fitness = calculate_fitness(keywords,
+                                    sentence_keywords_counter,
+                                    chromosome,
+                                    sentence_label)
+        if fitness < best_fitness:
+            best_fitness = fitness
+            best_chromosome = chromosome
+
     selected_keywords = {key for index, key in enumerate(sentence_keywords_counter)
                          if best_chromosome[index]}
     return selected_keywords
