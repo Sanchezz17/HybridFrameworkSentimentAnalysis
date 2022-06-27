@@ -1,0 +1,37 @@
+Датасет, твиты помечены 0 (негативный) или 1 (позитивный)
+Обучение (train) - 40000 твитов
+Тест (test) - 5000 твитов
+
+
+Запуск на 1% от датасета (обучение - 400 твитов, тест - 50 твитов)
+
+Lexicon-based accuracy: 0.64
+
+KNN ML using bag of words as features accuracy: 0.42
+SVC ML using bag of words as features accuracy: 0.82
+SVC RBF ML using bag of words as features accuracy: 0.72
+Naive Bayes ML using bag of words as features accuracy: 0.72
+DT ML using bag of words as features accuracy: 0.66
+Random forest ML using bag of words as features accuracy: 0.78
+AdaBoost ML using bag of words as features accuracy: 0.76
+
+размер популяции - 20
+количество поколений - 100
+
+было: 10530 ключевых слов (признаков) - 100%
+после отбора генетическим алгоритмом стало: 7050 ключевых слова (признака) - 66,95%
+т.е. уменьшили количество признаков на 33,05%
+
+KNN ML using bag of words as features accuracy: 0.42 (не изменилось)
+SVC ML using bag of words as features accuracy: 0.84 (+0.02)
+SVC RBF ML using bag of words as features accuracy: 0.72 (не изменилось)
+Naive Bayes ML using bag of words as features accuracy: 0.56 (-0.16)
+DT ML using bag of words as features accuracy: 0.68 (+0.02)
+Random forest ML using bag of words as features accuracy: 0.78 (не изменилось)
+AdaBoost ML using bag of words as features accuracy: 0.76 (не изменилось)
+
+По итогу accuracy (доля правильных ответов алгоритма) не ухудшилась для 6/7 классификаторов
+Для 4 не изменилась - KNN, SVC RBF, Random forest, AdaBoost
+Для 2 улучшилась - SVC (+0.2), DT (+0.2)
+
+Только для классификатора Naive Bayes ухудшилась (-0.16)
