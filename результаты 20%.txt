@@ -3,7 +3,7 @@
 Тест (test) - 5000 отзывов
 
 
-Запуск на 20% от датасета (обучение - 8000 отзывов тест - 1000 отзывов
+Запуск на 20% от датасета (обучение - 8000 отзывов тест - 1000 отзывов)
 
 Lexicon-based accuracy: 0.634
 
@@ -25,7 +25,7 @@ AdaBoost ML using bag of words as features accuracy: 0.766
 
 After feature reduction
 
-KNN ML using bag of words as features accuracy: 0.582 (-0.012)
+KNN ML using bag of words as features accuracy: 0.582 (0-0.012)
 SVC ML using bag of words as features accuracy: 0.822 (-0.08)
 SVC RBF ML using bag of words as features accuracy: 0.846 (+0.01)
 Naive Bayes ML using bag of words as features accuracy: 0.652 (-0.014)
