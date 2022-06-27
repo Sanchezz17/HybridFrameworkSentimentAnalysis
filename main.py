@@ -13,7 +13,7 @@ train_dataset = pd.read_csv('IMDB dataset/Train.csv')
 test_dataset = pd.read_csv('IMDB dataset/Test.csv')
 
 # Для быстрой проверки кода при разработке возьмем долю датасета в n процентов
-n = 10
+n = 20
 train_dataset = train_dataset.head(int(len(train_dataset) * (n / 100)))
 test_dataset = test_dataset.head(int(len(test_dataset) * (n / 100)))
 
@@ -42,11 +42,14 @@ classify_and_print_accuracy_all_methods(X_train, y_train, X_test, y_test)
 # Оптимизируем список ключевых слов (которые явлются признаками),
 # уменьшив его размер при сохранении точности
 # c помощью генетического алгоритма
+print(f"Было ключевых слов {len(keywords_train)}")
 selected_keywords = select_keywords_genetic_algorithm(keywords=keywords_train,
                                                       keywords_counters=keywords_train_counters,
                                                       sentence_labels=y_train,
                                                       population_size=20,
                                                       generations_count=100)
+print(f"Стало ключевых слов {len(selected_keywords)}. "
+      f"Это {len(selected_keywords) / len(keywords_train) * 100}% от общего числа ключевых слов")
 
 # Оставим только отобранные ключевые слова (признаки)
 keywords_dataframe_train = drop_columns_except(keywords_dataframe_train, except_columns=selected_keywords)
